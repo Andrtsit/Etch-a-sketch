@@ -92,6 +92,7 @@ body {
 .row {
   display: flex;
   border: none;
+  background-color: black;
 }
 
 .box {

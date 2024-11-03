@@ -1,46 +1,57 @@
-'use strict'
+"use strict";
 
+const app = function () {
+  const container = document.querySelector(`.container`);
+  const btn = document.querySelector(`.btn`);
+  const btnBorder = document.getElementById(`border-btn`);
+  const thirthyTwo = document.getElementById(`fix-size-1`);
+  const sixtyFour = document.getElementById(`fix-size-2`);
 
-const container = document.querySelector(`.container`)
-const row = document.querySelector(`.row`)
-const box = document.querySelectorAll(`.box`)
-const btn = document.querySelector(`.btn`)
-let gridsize;
+  const createGrid = function (dimension) {
+    document.documentElement.style.setProperty("--grid-size", dimension);
 
-
-
-
-const createGrid= function(dimension){
-
-    for(let i=1; i <= dimension;i++){
-     let newRow =  document.createElement(`div`)
-     newRow.classList.add(`row`)
-      for(let n = 1 ; n <= dimension;n++){
-        let newBox = document.createElement(`div`)
-        newBox.classList.add(`box`)
-        newRow.appendChild(newBox)
-        newBox.addEventListener(`mouseover`,function(){
-            this.style.backgroundColor = `black`
-        })
-        newBox.addEventListener(`keydown`,function(e){
-            console.log(e)
-            if (e.target.key = `C`){
-
-                this.style.backgroundColor = `red`
-            }
-        })
-
-     }
-    container.appendChild(newRow)
-     
-
+    for (let i = 1; i <= dimension; i++) {
+      let newRow = document.createElement(`div`);
+      newRow.classList.add(`row`);
+      for (let n = 1; n <= dimension; n++) {
+        let newBox = document.createElement(`div`);
+        newBox.classList.add(`box`);
+        newBox.classList.add(`border`);
+        newRow.appendChild(newBox);
+        newBox.addEventListener(`mouseover`, function () {
+          this.style.backgroundColor = `black`;
+          console.log(document.querySelectorAll(`.box`));
+        });
+      }
+      container.appendChild(newRow);
     }
-}
-btn.addEventListener(`click`,function(){
-        
-    gridsize = parseInt(prompt(`What are the dimensions you want for this grid ?(1-100 value)`))
+  };
+  createGrid(10);
 
+  btn.addEventListener(`click`, function () {
+    let gridsize = parseInt(
+      prompt(`What are the dimensions you want for this grid ?(1-100 value)`)
+    );
 
-    createGrid(gridsize)
-})
+    document.querySelectorAll(`.box`).forEach((box) => box.remove());
 
+    if (gridsize > 0 && gridsize <= 100) createGrid(gridsize);
+    else alert(`not a valid number`);
+  });
+  btnBorder.addEventListener(`click`, function () {
+    document
+      .querySelectorAll(`.box`)
+      .forEach((box) => box.classList.toggle(`border`));
+  });
+
+  sixtyFour.addEventListener(`click`, function () {
+    document.querySelectorAll(`.box`).forEach((box) => box.remove());
+    createGrid(64);
+  });
+  thirthyTwo.addEventListener(`click`, function () {
+    document.querySelectorAll(`.box`).forEach((box) => box.remove());
+    createGrid(32);
+  });
+};
+
+app();

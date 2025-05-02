@@ -3,16 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <script defer src="script.js"></script>
-    <title>Etc a sketch</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="app.js"></script>
+    <title>Sketch-It</title>
   </head>
   <body>
-    <div class="container">
-      <button id="fix-size-1">32 x 32</button>
-      <button id="fix-size-2">64 x 64</button>
-      <button class="btn">Custom Size</button>
-      <button id="border-btn">Border</button>
-    </div>
+    <header class="options">
+      <button id="custom-size-btn">Custom Size</button>
+      <button id="fixed-size-32">32 x 32</button>
+      <button id="fixed-size-64">64 x 64 </button>
+      <button id="toggle">Toggle Borders</button>
+      <input type="color"  id="color-option"></input>
+    </header>
+      <main class="container"></main>
+      <footer></footer>
   </body>
 </html>

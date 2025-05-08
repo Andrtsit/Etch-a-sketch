@@ -1,0 +1,39 @@
+@media (min-width: 320px) and (max-width:767px) {
+ html{
+  font-size:45%;
+}
+ body {
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+ } 
+ .container{
+  width:95%;
+  height: 40%;
+ }
+ .options{
+  width: 95%;
+  height:50%;
+  gap:1rem;
+ }
+ 
+ .options label {
+  font-size:2rem;
+ }
+ input[type="color"]{
+  width:20rem;
+ }
+ .row {
+  width: 100%;
+ }
+}
+
+@media (min-width: 768px) and (max-width:1440px){
+  html {
+    font-size:56%;
+  }
+
+}

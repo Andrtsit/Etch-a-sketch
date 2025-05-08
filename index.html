@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <script defer src="app.js"></script>
-    <title>Sketch-It</title>
-  </head>
-  <body>
-    <header class="options">
-      <button id="custom-size-btn">Custom Size</button>
-      <button id="fixed-size-32">32 x 32</button>
-      <button id="fixed-size-64">64 x 64 </button>
-      <button id="toggle">Toggle Borders</button>
-      <input type="color"  id="color-option"></input>
-    </header>
-      <main class="container"></main>
-      <footer></footer>
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="queries.css">
+  <script defer type="module" src="app.js"></script>
+  <title>Sketch-It</title>
+ </head>
+ <body>
+  <aside class="options">
+   <div class="row">
+    <input type="color" value="#000000" name="primary-color-option"  id="primary-color-option"></input>
+    <label for="primary-color-option">Left Click</label>
+   </div>
+   <div class="row">
+    <input value="#FFFFFF" type="color" name="secondary-color-option"  id="secondary-color-option"></input>
+    <label for="secondary-color-option">Right Click</label>
+   </div>
+    <button id="fixed-size-32">32 x 32</button>
+    <button id="fixed-size-64">64 x 64 </button>
+    <button id="toggle-grid-borders">Turn Off Grid Lines</button>
+   <div class="column">
+     <input value="10" type="range" min="1" max="100" name="size" id="grid-size"/>
+     <label id="grid-label" for="range">10x10 Grid</label>
+   </div>
+    <button id="reset">Clear Grid </button>
+   </aside>
+   <main class="container"></main>
+
   </body>
-</html>
+ </html>

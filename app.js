@@ -1,36 +1,52 @@
 "use strict";
 (()=> {
+
 // SELECTING DOM ELEMENTS 
+
 const container = document.querySelector(".container");
-const customSizeBtn = document.getElementById("custom-size-btn")
+
 const size32Btn = document.getElementById('fixed-size-32');
 const size64Btn = document.getElementById('fixed-size-64');
-const toggleBtn = document.getElementById('toggle');
-const colorInput = document.getElementById('color-option');
+const resetBtn = document.getElementById('reset');
+const toggleBordersBtn = document.getElementById('toggle-grid-borders');
+
+const primaryColorInput = document.getElementById('primary-color-option');
+const secondaryColorInput = document.getElementById('secondary-color-option')
+const sizeInput = document.getElementById('grid-size');
+const gridSizeLabel = document.getElementById('grid-label');
 
 // STATES?KINDA 
 
-let currentColor  = 'black';
+let gridsize = sizeInput.value; // sizeinput element has a defaultValue of 10;
+let primaryColor  = '#000000';
+let secondaryColor = "#ffffff";
 let isDrawing = false;
 let currentButton = null;
+let toggleStates = {
+  border: true,
+  btn32 : false,
+  btn64:  false,
+}
 
 // FUNCTION FOR CREATING EACH GRID
-
-const createGrid = function(dimension){
-
+const createGrid = function(dimension,areBordersToggled){
  container.style.setProperty("--grid-size", dimension);
  container.innerHTML ="";
+ sizeInput.value = dimension;
+ gridSizeLabel.textContent = `${sizeInput.value} x ${sizeInput.value} Grid`;
 
  for(let i = 1; i <= dimension * dimension ; i++){
   const cell = document.createElement('div');
-  cell.classList.add('box',"border");
+  cell.classList.add('box',`${areBordersToggled ? 'border' : "undefinedClass"  }`);
   container.appendChild(cell);
-} 
-
+  }
 }
 
 // BY DEFAULT THE APP STARTS WITH A 10X10 GRID
-createGrid(10)
+
+createGrid(gridsize,toggleStates.border)
+
+
 
 
 // EVENT LISTENERS FOR DRAWING /MOUSEEVENTS
@@ -39,25 +55,28 @@ container.addEventListener("mousedown", function (e) {
     isDrawing = true;
     currentButton = e.button;
     e.preventDefault();
-  }
-});
+    if(e.button === 0){
+      e.target.style.backgroundColor = primaryColor;
+    }else if(e.button === 2){
+      e.target.style.backgroundColor = secondaryColor;
 
+    }
+  }
+}); 
 container.addEventListener("mouseup", function () {
   isDrawing = false;
   currentButton = null;
 });
-
 container.addEventListener("mouseleave", function () {
   isDrawing = false;
   currentButton = null;
 });
-
 container.addEventListener("mouseover", function (e) {
   if (e.target.classList.contains("box") && isDrawing) {
     if (currentButton === 0) {
-      e.target.style.backgroundColor = currentColor;
+      e.target.style.backgroundColor = primaryColor;
     } else if (currentButton === 2) {
-      e.target.style.backgroundColor = "#fff"; // BY DEFAULT ACTS LIKE AN ERASER , MAYBE I WILL ADD A SELECTION FOR THE RIGHT CLICK AS WELL 
+      e.target.style.backgroundColor = secondaryColor;
     }
   }
 });
@@ -66,35 +85,95 @@ container.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
 
-// LISTENERS FOR THE BUTTONS /OPTIONS
-
-customSizeBtn.addEventListener("click", function () {
- let gridsize = parseInt(
- prompt("Choose the dimensions of the grid (this is a 10x10 by default , enter a number between 1-100"));
-
- if(gridsize > 0 && gridsize <= 100)createGrid(gridsize);
- else {
-  alert("Not a valid number")
-  createGrid(10)
-}
-});
+//EVENT LISTENERS FOR BTNS AND INPUTS
 
 size32Btn.addEventListener("click", function(){
-  createGrid(32)
+  if(toggleStates.btn64) return;
+  if(!toggleStates.btn32){
+    sizeInput.disabled = true;
+    toggleStates.btn32 = !toggleStates.btn32;
+    createGrid(32,toggleStates.border)
+    this.style.backgroundColor = '#000';
+    this.style.color = "#fff";
+  }
+  else {
+    sizeInput.disabled = false;
+    toggleStates.btn32 = !toggleStates.btn32;
+    createGrid(gridsize,toggleStates.border);
+    this.style.backgroundColor = '#fff';
+    this.style.color = "#000";
+  }
+});
+size64Btn.addEventListener("click", function(){
+ if(toggleStates.btn32) return;
+  
+ if(!toggleStates.btn64) {
+    sizeInput.disabled = true;
+    toggleStates.btn64 = !toggleStates.btn64;
+    createGrid(64,toggleStates.border)
+    this.style.backgroundColor = '#000';
+    this.style.color = "#fff";
+  }
+  else {
+    sizeInput.disabled = false;
+    toggleStates.btn64 = !toggleStates.btn64;
+    createGrid(gridsize,toggleStates.border);
+    this.style.backgroundColor = '#fff';
+    this.style.color = "#000";
+  }
 });
 
-size64Btn.addEventListener("click", function(){
-  createGrid(64)
-});     
-toggleBtn.addEventListener("click",function(){
-  const boxes = document.querySelectorAll(".box");
-  boxes.forEach((box)=> {
-  box.classList.toggle('border')
-  })
+
+
+toggleBordersBtn.addEventListener("click",function(){
+ if(!toggleStates.border) {
+   toggleStates.border = !toggleStates.border;
+   const boxes = document.querySelectorAll(".box");
+   boxes.forEach((box)=> {
+     box.classList.toggle('border')
+   })
+   this.style.backgroundColor = '#fff';
+   this.style.color = "#000";
+   this.innerHTML = 'Turn Off Grid Lines';
+  }
+  else {
+    toggleStates.border = !toggleStates.border;
+    const boxes = document.querySelectorAll(".box");
+    boxes.forEach((box)=> {
+      box.classList.toggle('border')
+    })
+  this.style.backgroundColor = '#000';
+   this.style.color = "#fff"
+   this.innerHTML = 'Turn On Grid Lines';
+  }
+});
+
+
+
+primaryColorInput.addEventListener("change", function(e) {
+  primaryColor = e.target.value; 
+});
+
+
+
+secondaryColorInput.addEventListener("change",function(e){
+  secondaryColor = e.target.value;
+});
+
+
+sizeInput.addEventListener("change",function(){
+
+
+gridsize = Number(sizeInput.value);
+gridSizeLabel.textContent = `${gridsize} x ${gridsize} Grid`;
+createGrid(gridsize,toggleStates.border);
 })
 
-colorInput.addEventListener("change", function(e) {
-  currentColor = e.target.value; 
-}
-)
+
+resetBtn.addEventListener('click',function(){
+  const boxes = document.querySelectorAll(".box");
+  boxes.forEach(box=> box.style.backgroundColor = '#fff')
+});
+
+
 })();

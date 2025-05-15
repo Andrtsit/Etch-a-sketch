@@ -12,7 +12,7 @@ A simple Etch-A-Sketch web application built with **HTML**, **CSS**, and **Vanil
 
 Live demo available on GitHub Pages:
 
-[https://andrtsit.github.io/Sketch-it](https://andrtsit.github.io/Sketch-it)
+[https://andrtsit.github.io/Sketch-It/](https://andrtsit.github.io/Sketch-It/) 
 
 ### Built With
 
